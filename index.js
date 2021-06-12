@@ -32,7 +32,10 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 ctx.canvas.width = document.documentElement.clientWidth;
 ctx.canvas.height = document.documentElement.clientHeight - yOffset;
-
+ctx.beginPath();
+ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+ctx.fillStyle = "black";
+ctx.fill();
 
 let isDrawing = false;
 let isShiftPressed = false;
@@ -50,7 +53,7 @@ document.addEventListener('keyup', (event) => {
 
 
 canvas.addEventListener('mousedown', (event) => {    
-    if(isDrawing) return;
+    if(isDrawing || event.button !== 0) return;
     const x = event.clientX;
     const y = event.clientY - yOffset;
     ctx.strokeStyle = isShiftPressed ? ERASE_COLOR : DRAW_COLOR;
@@ -70,7 +73,7 @@ document.addEventListener('mousemove', (event) => {
     });    
 });
 
-document.addEventListener('mouseup', () => {
+document.addEventListener('mouseup', () => {    
     isDrawing = false;
 });
 
